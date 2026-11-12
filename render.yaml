@@ -1,0 +1,24 @@
+# Optional: lets Render create the service from this file (a "Blueprint").
+services:
+  - type: web
+    name: sefineh-electronics
+    runtime: docker
+    plan: starter            # a persistent disk needs a paid plan
+    healthCheckPath: /healthz
+    disk:
+      name: shop-data
+      mountPath: /var/data   # the database and uploads live here, so they survive restarts
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: MAIL_FROM_NAME
+        value: Sefineh Electronics
+      - key: ADMIN_EMAIL
+        sync: false          # you type these secret values in the Render dashboard
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false

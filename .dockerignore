@@ -1,0 +1,8 @@
+.git
+.env
+storage/
+*.db
+uploads/
+__pycache__/
+*.pyc
+node_modules/

@@ -1,0 +1,69 @@
+# The words ${PORT} and ${DATA_DIR} are filled in by start.sh when the container starts.
+worker_processes auto;
+pid /tmp/nginx.pid;
+error_log /dev/stderr warn;
+
+events {
+    worker_connections 512;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    access_log /dev/stdout;
+    server_tokens off;
+    sendfile on;
+    client_max_body_size 12m;   # picture uploads (PHP allows up to 12 MB per request)
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+
+    # Render ends HTTPS before the request reaches this container, so keep its answer.
+    map $http_x_forwarded_proto $proto {
+        default $http_x_forwarded_proto;
+        ""      $scheme;
+    }
+
+    server {
+        listen ${PORT};
+        server_name _;
+        root /app/public;
+
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options SAMEORIGIN always;
+        add_header Referrer-Policy strict-origin-when-cross-origin always;
+
+        location = /healthz {
+            default_type text/plain;
+            return 200 "ok";
+        }
+
+        # Pictures people uploaded. The receipts folder is NOT listed here, so it stays private.
+        location ^~ /uploads/avatars/ {
+            alias ${DATA_DIR}/uploads/avatars/;
+            expires 7d;
+        }
+        location ^~ /uploads/products/ {
+            alias ${DATA_DIR}/uploads/products/;
+            expires 7d;
+        }
+
+        # Files of the shop pages are sent straight by nginx (fast).
+        location = / {
+            try_files /index.html =404;
+        }
+        location ~ ^/(assets/|data/|style\.css$|app\.js$) {
+            expires 5m;
+            try_files $uri =404;
+        }
+
+        # Everything else (/api, /analytics, /verify.php, /reset-password.php) goes to PHP.
+        location / {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $proto;
+            proxy_read_timeout 60s;
+        }
+    }
+}

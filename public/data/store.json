@@ -1,0 +1,35 @@
+{
+  "storeName": "Sefineh Electronics",
+  "owner": "Sefineh Asnake Fikadu",
+  "ownerTitle": "Electrical & Computer Engineer",
+  "currency": "ETB",
+  "analyticsUrl": "/analytics",
+  "images": {
+    "logo": "/assets/logo.jpg",
+    "hero": "/assets/hero.jpg"
+  },
+  "texts": {
+    "tagline": "The right place to shop for your modern electronic items!",
+    "heroAlt": "Upgrade to next gen. Discover tomorrow's tech today. Shop now.",
+    "about": "Sefineh Electronics sells electronic parts, tools and gadgets for makers, students and engineers.",
+    "footer": "© Sefineh Electronics · Built by Sefineh Asnake Fikadu, Electrical & Computer Engineer"
+  },
+  "payment": {
+    "telebirrNumber": "0954026072",
+    "accountName": "Sefineh Asnake Fikadu"
+  },
+  "contact": {
+    "phone": "+251954026072",
+    "email": "sefinehasnake75@gmail.com",
+    "telegram": "https://t.me/dagem_16",
+    "portfolio": "https://sefineh12.github.io/sefineh-profile-web/",
+    "github": "https://github.com/Sefineh12"
+  },
+  "privacy": [
+    "We collect only what we need to process your order: your name, email, phone number, delivery address and payment proof.",
+    "Passwords are never stored in plain text. They are hashed, so nobody at the shop can read them.",
+    "Transaction IDs and payment screenshots are used only to confirm your Telebirr payment, and are visible only to you and the shop admin.",
+    "We do not sell your personal data. We share it only when needed to deliver your order or when the law requires it.",
+    "You can update your details at any time, or ask us to delete your account through the support email in the footer."
+  ]
+}

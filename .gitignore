@@ -1,0 +1,5 @@
+.env
+storage/
+*.db
+uploads/
+__pycache__/
